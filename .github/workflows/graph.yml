@@ -28,5 +28,5 @@ jobs:
         shell: bash
       - name: Deploy to TheGraph and sync with Stakesquid
         run: |
-          graph deploy --access-token ${{secrets.GRAPH_ACCESS_TOKEN}} froid1911/aavegotchi-subgraph-alpha subgraph.yml --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/
+          graph deploy --access-token ${{secrets.GRAPH_ACCESS_TOKEN}} froid1911/aavegotchi-subgraph-alpha subgraph.yaml --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/
         shell: bash
