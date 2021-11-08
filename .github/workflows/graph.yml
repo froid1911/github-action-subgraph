@@ -1,0 +1,32 @@
+name: Deploy Graph
+
+on:
+  push:
+    branches: main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Install node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14
+      - name: Install Yarn
+        run: npm i -g yarn
+      - name: Install Libs
+        run: yarn --frozen-lockfile
+      - name: Codegen
+        run: yarn codegen
+      - name: Build
+        run: yarn build
+      - name: Install Graph CLI
+        run: |
+          yarn global add @graphprotocol/graph-cli
+          echo "$(yarn global bin)" >> $GITHUB_PATH
+        shell: bash
+      - name: Deploy to TheGraph and sync with Stakesquid
+        run: |
+          graph deploy --access-token ${{secrets.GRAPH_ACCESS_TOKEN}} froid1911/aavegotchi-subgraph-alpha subgraph.yml --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/
+        shell: bash
